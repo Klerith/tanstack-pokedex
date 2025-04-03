@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 
-import SearchBar from '../components/SearchBar';
 import { BasicPokemon } from '../types/basic-pokemon.interface';
-import PokemonCard from '../components/PokemonCard';
+
+import SearchBar from '../components/SearchBar';
+import { FullScreenLoading } from '../components/FullScreenLoading';
+import { PokemonCard } from '../components/PokemonCard';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -40,6 +42,7 @@ export const PaginatedPage = () => {
                 name: data.name,
                 image: data.sprites.other['official-artwork'].front_default,
                 types: data.types.map((type: any) => type.type.name),
+                move: data.moves[0].move.name,
               },
             ]);
             setTotalPages(1);
@@ -119,11 +122,7 @@ export const PaginatedPage = () => {
       {/* Header End */}
 
       {/* Loading Pokemons / Cargando siguiente página */}
-      {isLoading && (
-        <div className="fixed z-10 top-0 left-0 bg-black w-screen h-screen opacity-50 flex justify-center items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-r-2 border-white"></div>
-        </div>
-      )}
+      {isLoading && <FullScreenLoading />}
 
       {/* Si no hay pokemons que mostrar */}
       {!isLoading && displayedPokemons.length === 0 && (

@@ -3,4 +3,5 @@ export interface BasicPokemon {
   name: string;
   image: string;
   types: string[];
+  move: string;
 }

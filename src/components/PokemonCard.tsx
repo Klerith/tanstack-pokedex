@@ -3,6 +3,7 @@ import { Heart } from 'lucide-react';
 import { ColorPicker } from '../helpers/color-type';
 
 import type { BasicPokemon } from '../types/basic-pokemon.interface';
+import { Link } from 'react-router';
 
 interface Props {
   pokemon: BasicPokemon;
@@ -10,18 +11,24 @@ interface Props {
   onFavoriteClick: () => void;
 }
 
-const PokemonCard: FC<Props> = ({ pokemon, isFavorite, onFavoriteClick }) => {
+export const PokemonCard: FC<Props> = ({
+  pokemon,
+  isFavorite,
+  onFavoriteClick,
+}) => {
   return (
     <div className="bg-red-50 rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl">
       <div className="relative">
-        <img
-          src={pokemon.image}
-          alt={pokemon.name}
-          className="w-full h-44 object-contain bg-red-100 p-4"
-        />
+        <Link to={`/pokemons/${pokemon.id}`}>
+          <img
+            src={pokemon.image}
+            alt={pokemon.name}
+            className="cursor-pointer w-full h-44 object-contain bg-red-100 p-4"
+          />
+        </Link>
         <button
           onClick={onFavoriteClick}
-          className="absolute top-2 right-2 p-2 rounded-full bg-white/90 hover:bg-white transition-colors"
+          className="absolute cursor-pointer top-2 right-2 p-2 rounded-full bg-white/90 hover:bg-white transition-colors"
         >
           <Heart
             size={24}
@@ -54,5 +61,3 @@ const PokemonCard: FC<Props> = ({ pokemon, isFavorite, onFavoriteClick }) => {
     </div>
   );
 };
-
-export default PokemonCard;
