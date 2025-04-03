@@ -10,7 +10,6 @@ import { PokemonInfo } from './ui/PokemonInfo';
 
 export const PokemonPage = () => {
   const { nameOrId = '' } = useParams();
-  const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
