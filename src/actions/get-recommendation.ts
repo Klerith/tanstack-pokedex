@@ -49,7 +49,6 @@ export const getRecommendationAgainst = async (
 };
 
 // ! Esta función utiliza Gemini para obtener recomendaciones de Pokémon
-
 export const getRecommendationAgainstGemini = async (
   pokemon: Pokemon
 ): Promise<BasicPokemon[]> => {
