@@ -8,7 +8,7 @@ import { RecommendationCard } from '../../components/RecommendationCard';
 import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonInfo } from './ui/PokemonInfo';
 import { SearchBar } from '../../components/SearchBar';
-import { getPokemonByTerm } from '../../actions';
+import { getPokemonByTerm, getRecommendationAgainst } from '../../actions';
 
 export const PokemonPage = () => {
   const { nameOrId = '' } = useParams();
@@ -24,7 +24,7 @@ export const PokemonPage = () => {
       setError('');
       const pokemon = await getPokemonByTerm(nameOrId);
       setPokemon(pokemon);
-      await fetchRecommendations(pokemon.id);
+      await fetchRecommendations(pokemon);
     } catch (err) {
       setError('Pokemon not found!');
       setPokemon(null);
@@ -33,41 +33,15 @@ export const PokemonPage = () => {
     }
   };
 
-  const fetchRecommendations = async (currentPokemonId: number) => {
+  const fetchRecommendations = async (pokemon: Pokemon) => {
     try {
-      const recommendedIds = generateRandomIds(currentPokemonId);
-      const recommendations = await Promise.all(
-        recommendedIds.map(async (id) => {
-          const response = await fetch(
-            `https://pokeapi.co/api/v2/pokemon/${id}`
-          );
-          const data = (await response.json()) as Pokemon;
-          const randomMove =
-            data.moves[Math.floor(Math.random() * data.moves.length)].move.name;
-          return {
-            id: data.id,
-            name: data.name,
-            move: randomMove,
-            image: data.sprites.other?.['official-artwork'].front_default ?? '',
-            types: data.types.map((type) => type.type.name),
-          };
-        })
-      );
+      const recommendations = await getRecommendationAgainst(pokemon);
       setRecommendations(recommendations);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
+      setRecommendations([]);
+      setError('Failed to fetch recommendations');
     }
-  };
-
-  const generateRandomIds = (currentId: number): number[] => {
-    const ids = new Set<number>();
-    while (ids.size < 4) {
-      const randomId = Math.floor(Math.random() * 1010) + 1;
-      if (randomId !== currentId) {
-        ids.add(randomId);
-      }
-    }
-    return Array.from(ids);
   };
 
   useEffect(() => {
