@@ -1,24 +1,28 @@
 import { Search } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 interface Props {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-  setCurrentPage: (page: number) => void;
+  initialValue?: string;
 }
 
-const SearchBar: FC<Props> = ({
-  searchTerm,
-  setSearchTerm,
-  setCurrentPage,
-}) => {
+const SearchBar: FC<Props> = ({ initialValue = '' }) => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState(initialValue);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setCurrentPage(1);
+    if (searchTerm.trim() === '') {
+      navigate('/');
+      return;
+    }
+
+    const term = searchTerm.trim().toLowerCase();
+    navigate(`/pokemons/${term}`);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex-1">
+    <form onSubmit={handleSubmit} className="w-full max-w-md relative ">
       <div className="relative">
         <input
           type="text"

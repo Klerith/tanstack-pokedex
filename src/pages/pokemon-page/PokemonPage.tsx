@@ -3,10 +3,11 @@ import { Search } from 'lucide-react';
 
 import type { BasicPokemon } from '../../types/basic-pokemon.interface';
 import type { Pokemon } from '../../types/pokemon.interface';
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { RecommendationCard } from '../../components/RecommendationCard';
 import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonInfo } from './ui/PokemonInfo';
+import SearchBar from '../../components/SearchBar';
 
 export const PokemonPage = () => {
   const { nameOrId = '' } = useParams();
@@ -73,13 +74,6 @@ export const PokemonPage = () => {
     return Array.from(ids);
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchTerm.trim()) {
-      fetchPokemon(searchTerm);
-    }
-  };
-
   useEffect(() => {
     fetchPokemon(nameOrId);
   }, [nameOrId]);
@@ -95,7 +89,9 @@ export const PokemonPage = () => {
             Pokédex
           </Link>
 
-          <form onSubmit={handleSearch} className="w-full max-w-md relative">
+          <SearchBar initialValue={nameOrId} />
+
+          {/* <form onSubmit={handleSearch} className="w-full max-w-md relative">
             <input
               type="text"
               value={searchTerm}
@@ -109,7 +105,7 @@ export const PokemonPage = () => {
             >
               <Search size={24} />
             </button>
-          </form>
+          </form> */}
 
           {error && <div className="text-red-500 font-semibold">{error}</div>}
 

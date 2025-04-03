@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from 'react-router';
+import { HashRouter, Navigate, Route, Routes } from 'react-router';
 
 import { PokedexLayout } from './layouts/PokedexLayout';
 import { PaginatedPage } from './pages/PaginatedPage';

@@ -19,7 +19,7 @@ export const PokemonCard: FC<Props> = ({
   return (
     <div className="bg-red-50 rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl">
       <div className="relative">
-        <Link to={`/pokemons/${pokemon.id}`}>
+        <Link to={`/pokemons/${pokemon.name}`}>
           <img
             src={pokemon.image}
             alt={pokemon.name}
