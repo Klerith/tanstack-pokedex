@@ -17,7 +17,7 @@ const PokemonCard: FC<Props> = ({ pokemon, isFavorite, onFavoriteClick }) => {
         <img
           src={pokemon.image}
           alt={pokemon.name}
-          className="w-full h-48 object-contain bg-red-100 p-4"
+          className="w-full h-44 object-contain bg-red-100 p-4"
         />
         <button
           onClick={onFavoriteClick}
