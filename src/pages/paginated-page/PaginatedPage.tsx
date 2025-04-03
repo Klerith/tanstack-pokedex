@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 
-import { BasicPokemon } from '../../types/basic-pokemon.interface';
-
 import { SearchBar } from '../../components/SearchBar';
 import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonCard } from '../../components/PokemonCard';
@@ -18,12 +16,12 @@ export const PaginatedPage = () => {
   const pageParam = Number(searchParams.get('page') ?? '1');
   const currentPage = pageParam > 0 ? pageParam : 1;
 
-  // const [pokemons, setPokemons] = useState<BasicPokemon[]>([]);
-  // const [isLoading, setIsLoading] = useState(true);
   const { data, isLoading } = useQuery({
     queryKey: ['pokemons', currentPage],
     queryFn: () => getPokemonsByPage({ currentPage }),
+    staleTime: 1000 * 60 * 5, // 5 minutos
   });
+
   const pokemons = data?.pokemons ?? [];
   const totalPages = data?.totalPages ?? 0;
 
@@ -37,22 +35,6 @@ export const PaginatedPage = () => {
   useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   getPokemonsByPage({ currentPage: currentPage })
-  //     .then((data) => {
-  //       setPokemons(data.pokemons);
-  //       setTotalPages(data.totalPages);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching pokemons:', error);
-  //       alert('Error fetching pokemons');
-  //     })
-  //     .finally(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, [currentPage]);
 
   const toggleFavorite = (pokemonId: number) => {
     setFavorites((prev) =>
