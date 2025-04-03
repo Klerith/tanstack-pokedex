@@ -8,6 +8,7 @@ import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonCard } from '../../components/PokemonCard';
 import { getPokemonsByPage } from '../../actions';
 import { useNavigate, useSearchParams } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
 
 export const PaginatedPage = () => {
   const navigate = useNavigate();
@@ -17,10 +18,15 @@ export const PaginatedPage = () => {
   const pageParam = Number(searchParams.get('page') ?? '1');
   const currentPage = pageParam > 0 ? pageParam : 1;
 
-  const [pokemons, setPokemons] = useState<BasicPokemon[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [pokemons, setPokemons] = useState<BasicPokemon[]>([]);
+  // const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading } = useQuery({
+    queryKey: ['pokemons', currentPage],
+    queryFn: () => getPokemonsByPage({ currentPage }),
+  });
+  const pokemons = data?.pokemons ?? [];
+  const totalPages = data?.totalPages ?? 0;
 
-  const [totalPages, setTotalPages] = useState(0);
   const [favorites, setFavorites] = useState<number[]>(() => {
     const saved = localStorage.getItem('favorites');
     return saved ? JSON.parse(saved) : [];
@@ -32,21 +38,21 @@ export const PaginatedPage = () => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
 
-  useEffect(() => {
-    setIsLoading(true);
-    getPokemonsByPage({ currentPage: currentPage })
-      .then((data) => {
-        setPokemons(data.pokemons);
-        setTotalPages(data.totalPages);
-      })
-      .catch((error) => {
-        console.error('Error fetching pokemons:', error);
-        alert('Error fetching pokemons');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [currentPage]);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   getPokemonsByPage({ currentPage: currentPage })
+  //     .then((data) => {
+  //       setPokemons(data.pokemons);
+  //       setTotalPages(data.totalPages);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching pokemons:', error);
+  //       alert('Error fetching pokemons');
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // }, [currentPage]);
 
   const toggleFavorite = (pokemonId: number) => {
     setFavorites((prev) =>

@@ -1,4 +1,6 @@
 import { sleep } from '../helpers/sleep';
+import { BasicPokemon } from '../types/basic-pokemon.interface';
+import { Pokemon } from '../types/pokemon.interface';
 
 interface Options {
   currentPage?: number;
@@ -20,15 +22,16 @@ export const getPokemonsByPage = async (options: Options) => {
     const data = await response.json();
     const totalPages = Math.ceil(data.count / itemsPerPage);
 
-    const pokemonDetails = await Promise.all(
-      data.results.map(async (pokemon: any) => {
-        const res = await fetch(pokemon.url);
-        const details = await res.json();
+    const pokemonDetails: BasicPokemon[] = await Promise.all(
+      data.results.map(async (result: any) => {
+        const res = await fetch(result.url);
+        const details = (await res.json()) as Pokemon;
         return {
           id: details.id,
           name: details.name,
-          image: details.sprites.other['official-artwork'].front_default,
+          image: details.sprites.other?.['official-artwork'].front_default,
           types: details.types.map((type: any) => type.type.name),
+          move: details.moves[0].move.name,
         };
       })
     );
