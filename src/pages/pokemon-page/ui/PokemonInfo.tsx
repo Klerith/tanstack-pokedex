@@ -68,11 +68,11 @@ export const PokemonInfo: FC<Props> = ({ pokemon }) => {
           <div className="grid grid-cols-2 gap-4">
             <div className="text-center p-2 bg-gray-100 rounded-lg">
               <p className="text-sm text-gray-600">Altura</p>
-              <p className="font-bold">{pokemon.height / 10}m</p>
+              <p className="font-bold">{pokemon.height / 10} m</p>
             </div>
             <div className="text-center p-2 bg-gray-100 rounded-lg">
               <p className="text-sm text-gray-600">Peso</p>
-              <p className="font-bold">{pokemon.weight / 10}kg</p>
+              <p className="font-bold">{pokemon.weight / 10} kg</p>
             </div>
           </div>
 
