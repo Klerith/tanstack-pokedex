@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Link, useParams } from 'react-router';
 
 import type { BasicPokemon } from '../../types/basic-pokemon.interface';
 import type { Pokemon } from '../../types/pokemon.interface';
-import { Link, useParams } from 'react-router';
+
 import { RecommendationCard } from '../../components/RecommendationCard';
 import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonInfo } from './ui/PokemonInfo';
-import SearchBar from '../../components/SearchBar';
+import { SearchBar } from '../../components/SearchBar';
 import { getPokemonByTerm } from '../../actions';
 
 export const PokemonPage = () => {

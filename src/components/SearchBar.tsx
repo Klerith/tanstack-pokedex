@@ -6,7 +6,7 @@ interface Props {
   initialValue?: string;
 }
 
-const SearchBar: FC<Props> = ({ initialValue = '' }) => {
+export const SearchBar: FC<Props> = ({ initialValue = '' }) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState(initialValue);
 
@@ -39,5 +39,3 @@ const SearchBar: FC<Props> = ({ initialValue = '' }) => {
     </form>
   );
 };
-
-export default SearchBar;
