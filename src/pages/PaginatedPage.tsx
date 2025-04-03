@@ -111,7 +111,7 @@ export const PaginatedPage = () => {
             }`}
           >
             <Heart className={showFavorites ? 'fill-current' : ''} size={20} />
-            Favorites
+            Favoritos
           </button>
         </div>
       </div>
@@ -120,7 +120,7 @@ export const PaginatedPage = () => {
 
       {/* Loading Pokemons / Cargando siguiente página */}
       {isLoading && (
-        <div className="flex justify-center items-center h-64">
+        <div className="fixed z-10 top-0 left-0 bg-black w-screen h-screen opacity-50 flex justify-center items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-r-2 border-white"></div>
         </div>
       )}
@@ -152,10 +152,10 @@ export const PaginatedPage = () => {
               disabled={currentPage === 1}
               className="flex items-center gap-1 px-4 py-2 bg-red-100 border border-red-200 rounded-lg disabled:opacity-50 hover:bg-red-200 text-red-900"
             >
-              <ChevronLeft size={20} /> Previous
+              <ChevronLeft size={20} /> Anterior
             </button>
             <span className="text-white font-medium">
-              Page {currentPage} of {totalPages}
+              Página {currentPage} de {totalPages}
             </span>
             <button
               onClick={() =>
@@ -164,7 +164,7 @@ export const PaginatedPage = () => {
               disabled={currentPage === totalPages}
               className="flex items-center gap-1 px-4 py-2 bg-red-100 border border-red-200 rounded-lg disabled:opacity-50 hover:bg-red-200 text-red-900"
             >
-              Next <ChevronRight size={20} />
+              Siguiente <ChevronRight size={20} />
             </button>
           </div>
         )}
