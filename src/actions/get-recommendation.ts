@@ -2,6 +2,8 @@ import { BasicPokemon } from '../types/basic-pokemon.interface';
 import { Pokemon } from '../types/pokemon.interface';
 import { getPokemonByTerm } from './get-pokemon-by-term';
 
+// const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
 //! Esto es temporal, la idea es generar 4 aleatorios que no sea el Pokémon actual
 const generateRandomIds = (pokemonId: number): number[] => {
   const ids = new Set<number>();
