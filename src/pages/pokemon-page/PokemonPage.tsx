@@ -51,42 +51,26 @@ export const PokemonPage = () => {
     }
   }, [recommendations, pokemon]);
 
-  // const [pokemon, setPokemon] = useState<Pokemon | null>(null);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState('');
+  // Prefetch del siguiente y anterior pokemon
+  useEffect(() => {
+    if (pokemon) {
+      const id = `${pokemon.id + 1}`;
+      queryClient.prefetchQuery({
+        queryKey: ['pokemon', id],
+        queryFn: () => getPokemonByTerm(id),
+        staleTime: 1000 * 60 * 5, // 5 minutos
+      });
+    }
 
-  // const [recommendations, setRecommendations] = useState<BasicPokemon[]>([]);
-
-  // const fetchPokemon = async (nameOrId: string) => {
-  //   try {
-  //     setIsLoading(true);
-  //     setError('');
-  //     const pokemon = await getPokemonByTerm(nameOrId);
-  //     setPokemon(pokemon);
-  //     // await fetchRecommendations(pokemon);
-  //   } catch (err) {
-  //     setError('Pokemon not found!');
-  //     setPokemon(null);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const fetchRecommendations = async (pokemon: Pokemon) => {
-  //   try {
-  //     // const recommendations = await getRecommendationAgainstGemini(pokemon);
-  //     const recommendations = await getRecommendationAgainst(pokemon);
-  //     setRecommendations(recommendations);
-  //   } catch (error) {
-  //     console.error('Error fetching recommendations:', error);
-  //     setRecommendations([]);
-  //     setError('Failed to fetch recommendations');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchPokemon(nameOrId);
-  // }, [nameOrId]);
+    if (pokemon && pokemon.id > 1) {
+      const id = `${pokemon.id - 1}`;
+      queryClient.prefetchQuery({
+        queryKey: ['pokemon', id],
+        queryFn: () => getPokemonByTerm(id),
+        staleTime: 1000 * 60 * 5, // 5 minutos
+      });
+    }
+  }, [pokemon]);
 
   return (
     <div className="min-h-screen  flex items-center justify-center p-4">
