@@ -1,8 +1,6 @@
-import { BasicPokemon } from '../types/basic-pokemon.interface';
+import { Pokemon } from '../types/pokemon.interface';
 
-export const getPokemonByTerm = async (
-  nameOrId: string
-): Promise<BasicPokemon> => {
+export const getPokemonByTerm = async (nameOrId: string): Promise<Pokemon> => {
   const searchTerm = nameOrId.trim().toLowerCase();
 
   try {
@@ -10,15 +8,9 @@ export const getPokemonByTerm = async (
       `https://pokeapi.co/api/v2/pokemon/${searchTerm}`
     );
 
-    const data = await response.json();
+    const pokemon = await response.json();
 
-    return {
-      id: data.id,
-      name: data.name,
-      image: data.sprites.other['official-artwork'].front_default,
-      types: data.types.map((type: any) => type.type.name),
-      move: data.moves[0].move.name ?? 'Tackle',
-    };
+    return pokemon;
   } catch (error) {
     console.log(error);
     throw new Error(`Pokemon by ${nameOrId} not found - Check logs`);

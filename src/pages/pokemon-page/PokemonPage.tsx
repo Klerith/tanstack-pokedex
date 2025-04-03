@@ -8,27 +8,23 @@ import { RecommendationCard } from '../../components/RecommendationCard';
 import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonInfo } from './ui/PokemonInfo';
 import SearchBar from '../../components/SearchBar';
+import { getPokemonByTerm } from '../../actions';
 
 export const PokemonPage = () => {
   const { nameOrId = '' } = useParams();
 
-  const [searchTerm, setSearchTerm] = useState('');
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [recommendations, setRecommendations] = useState<BasicPokemon[]>([]);
 
-  const fetchPokemon = async (identifier: string | number) => {
+  const fetchPokemon = async (nameOrId: string) => {
     try {
       setIsLoading(true);
       setError('');
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${identifier}`
-      );
-      if (!response.ok) throw new Error('Pokemon not found!');
-      const data = await response.json();
-      setPokemon(data);
-      await fetchRecommendations(data.id);
+      const pokemon = await getPokemonByTerm(nameOrId);
+      setPokemon(pokemon);
+      await fetchRecommendations(pokemon.id);
     } catch (err) {
       setError('Pokemon not found!');
       setPokemon(null);
@@ -90,22 +86,6 @@ export const PokemonPage = () => {
           </Link>
 
           <SearchBar initialValue={nameOrId} />
-
-          {/* <form onSubmit={handleSearch} className="w-full max-w-md relative">
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Buscar por nombre o número..."
-              className="w-full px-4 py-2 rounded-full border-2 border-gray-300 focus:border-red-500 focus:outline-none pr-12"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-500"
-            >
-              <Search size={24} />
-            </button>
-          </form> */}
 
           {error && <div className="text-red-500 font-semibold">{error}</div>}
 
