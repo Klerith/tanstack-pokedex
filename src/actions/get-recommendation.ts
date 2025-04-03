@@ -3,6 +3,7 @@ import { GoogleGenAI } from '@google/genai';
 import { BasicPokemon } from '../types/basic-pokemon.interface';
 import { Pokemon } from '../types/pokemon.interface';
 import { getPokemonByTerm } from './get-pokemon-by-term';
+import { sleep } from '../helpers/sleep';
 
 const GEMINI_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const ai = new GoogleGenAI({
@@ -24,6 +25,9 @@ const generateRandomIds = (pokemonId: number): number[] => {
 export const getRecommendationAgainst = async (
   pokemon: Pokemon
 ): Promise<BasicPokemon[]> => {
+  //? Simular un retraso de 1.5 segundos
+  await sleep(1500);
+
   try {
     const recommendedIds = generateRandomIds(pokemon.id);
 

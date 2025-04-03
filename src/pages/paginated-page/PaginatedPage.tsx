@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 
-import { BasicPokemon } from '../types/basic-pokemon.interface';
+import { BasicPokemon } from '../../types/basic-pokemon.interface';
 
-import { SearchBar } from '../components/SearchBar';
-import { FullScreenLoading } from '../components/FullScreenLoading';
-import { PokemonCard } from '../components/PokemonCard';
-import { getPokemonsByPage } from '../actions';
+import { SearchBar } from '../../components/SearchBar';
+import { FullScreenLoading } from '../../components/FullScreenLoading';
+import { PokemonCard } from '../../components/PokemonCard';
+import { getPokemonsByPage } from '../../actions';
 import { useNavigate, useSearchParams } from 'react-router';
 
 export const PaginatedPage = () => {

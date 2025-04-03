@@ -1,6 +1,10 @@
+import { sleep } from '../helpers/sleep';
 import { Pokemon } from '../types/pokemon.interface';
 
 export const getPokemonByTerm = async (nameOrId: string): Promise<Pokemon> => {
+  //? Simular un retraso de 1.5 segundos
+  await sleep(1500);
+
   const searchTerm = nameOrId.trim().toLowerCase();
 
   try {

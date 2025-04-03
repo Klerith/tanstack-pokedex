@@ -1,9 +1,14 @@
+import { sleep } from '../helpers/sleep';
+
 interface Options {
   currentPage?: number;
   itemsPerPage?: number;
 }
 
 export const getPokemonsByPage = async (options: Options) => {
+  //? Simular un retraso de 1.5 segundos
+  await sleep(1500);
+
   const { currentPage = 1, itemsPerPage = 12 } = options;
 
   try {

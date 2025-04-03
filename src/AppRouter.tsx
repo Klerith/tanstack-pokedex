@@ -1,7 +1,7 @@
-import { HashRouter, Navigate, Route, Routes } from 'react-router';
+import { HashRouter, Route, Routes } from 'react-router';
 
 import { PokedexLayout } from './layouts/PokedexLayout';
-import { PaginatedPage } from './pages/PaginatedPage';
+import { PaginatedPage } from './pages/paginated-page/PaginatedPage';
 import { PokemonPage } from './pages/pokemon-page/PokemonPage';
 
 export const AppRouter = () => {
