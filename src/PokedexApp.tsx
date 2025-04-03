@@ -4,6 +4,11 @@ import { AppRouter } from './AppRouter';
 
 const queryClient = new QueryClient({
   // TODO: configurar después
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
 });
 
 export const PokedexApp = () => {

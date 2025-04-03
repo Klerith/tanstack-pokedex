@@ -17,7 +17,7 @@ export const PaginatedPage = () => {
   const currentPage = pageParam > 0 ? pageParam : 1;
 
   const { data, isLoading } = useQuery({
-    queryKey: ['pokemons', currentPage],
+    queryKey: ['pokemons', 'page', currentPage],
     queryFn: () => getPokemonsByPage({ currentPage }),
     staleTime: 1000 * 60 * 5, // 5 minutos
   });
