@@ -9,6 +9,7 @@ import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonInfo } from './ui/PokemonInfo';
 import { SearchBar } from '../../components/SearchBar';
 import { getPokemonByTerm, getRecommendationAgainst } from '../../actions';
+import { getRecommendationAgainstGemini } from '../../actions/get-recommendation';
 
 export const PokemonPage = () => {
   const { nameOrId = '' } = useParams();
@@ -35,7 +36,7 @@ export const PokemonPage = () => {
 
   const fetchRecommendations = async (pokemon: Pokemon) => {
     try {
-      const recommendations = await getRecommendationAgainst(pokemon);
+      const recommendations = await getRecommendationAgainstGemini(pokemon);
       setRecommendations(recommendations);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
