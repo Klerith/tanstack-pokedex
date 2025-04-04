@@ -1,31 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 
 import { SearchBar } from '../../components/SearchBar';
 import { FullScreenLoading } from '../../components/FullScreenLoading';
 import { PokemonCard } from '../../components/PokemonCard';
-import { getPokemonsByPage } from '../../actions';
+import { usePokemonsPaginated } from '../../hooks/usePokemonsPaginated';
 
 export const PaginatedPage = () => {
   const navigate = useNavigate();
 
-  // Obtener los parámetros de búsqueda de la URL
-  const [searchParams] = useSearchParams();
-  const pageParam = Number(searchParams.get('page') ?? '1');
-  const currentPage = pageParam > 0 ? pageParam : 1;
-
-  const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
-    queryKey: ['pokemons', 'page', currentPage],
-    queryFn: () => getPokemonsByPage({ currentPage }),
-    staleTime: 1000 * 60 * 5, // 5 minutos
-  });
-
-  const pokemons = data?.pokemons ?? [];
-  const totalPages = data?.totalPages ?? 0;
+  const { pokemons, totalPages, currentPage, isLoading, onPrefetchNextPage } =
+    usePokemonsPaginated();
 
   const [favorites, setFavorites] = useState<number[]>(() => {
     const saved = localStorage.getItem('favorites');
@@ -44,18 +31,6 @@ export const PaginatedPage = () => {
         ? prev.filter((id) => id !== pokemonId)
         : [...prev, pokemonId]
     );
-  };
-
-  const onPrefetchNextPage = (page: number) => {
-    if (page > totalPages) return;
-    if (page < 1) return;
-    if (page === currentPage) return;
-
-    queryClient.prefetchQuery({
-      queryKey: ['pokemons', 'page', page],
-      queryFn: () => getPokemonsByPage({ currentPage: page }),
-      staleTime: 1000 * 60 * 5, // 5 minutos
-    });
   };
 
   const displayedPokemons = showFavorites
