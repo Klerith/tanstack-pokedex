@@ -4,6 +4,8 @@ import { ColorPicker } from '../helpers/color-type';
 
 import type { BasicPokemon } from '../types/basic-pokemon.interface';
 import { Link } from 'react-router';
+import { useQueryClient } from '@tanstack/react-query';
+import { getPokemonByTerm } from '../actions';
 
 interface Props {
   pokemon: BasicPokemon;
@@ -16,8 +18,22 @@ export const PokemonCard: FC<Props> = ({
   isFavorite,
   onFavoriteClick,
 }) => {
+  const queryClient = useQueryClient();
+
+  const onMouseEnter = () => {
+    // console.log(pokemon.name, pokemon.id);
+    queryClient.prefetchQuery({
+      queryKey: ['pokemon', pokemon.name],
+      queryFn: () => getPokemonByTerm(pokemon.name),
+      staleTime: 1000 * 60 * 60, // 1 hour
+    });
+  };
+
   return (
-    <div className="bg-red-50 rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl">
+    <div
+      onMouseEnter={onMouseEnter}
+      className="bg-red-50 rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 hover:shadow-xl"
+    >
       <div className="relative">
         <Link to={`/pokemons/${pokemon.name}`}>
           <img
