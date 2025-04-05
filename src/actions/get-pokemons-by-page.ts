@@ -1,7 +1,6 @@
 import { sleep } from '../helpers/sleep';
 import type { BasicPokemon } from '../types/basic-pokemon.interface';
-import { BasicPokemon } from '../types/basic-pokemon.interface';
-import { Pokemon } from '../types/pokemon.interface';
+import type { Pokemon } from '../types/pokemon.interface';
 
 interface Options {
   currentPage?: number;
