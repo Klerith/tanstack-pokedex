@@ -1,4 +1,5 @@
 import { sleep } from '../helpers/sleep';
+import type { BasicPokemon } from '../types/basic-pokemon.interface';
 
 interface Options {
   currentPage?: number;
@@ -20,7 +21,7 @@ export const getPokemonsByPage = async (options: Options) => {
     const data = await response.json();
     const totalPages = Math.ceil(data.count / itemsPerPage);
 
-    const pokemonDetails = await Promise.all(
+    const pokemonDetails: BasicPokemon[] = await Promise.all(
       data.results.map(async (pokemon: any) => {
         const res = await fetch(pokemon.url);
         const details = await res.json();
